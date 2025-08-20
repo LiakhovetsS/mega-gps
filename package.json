@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "MegaGPS is a Node.js library for interacting with the MEGA-GPS service. It allows you to obtain calculated mileage values for a selected time interval and the current coordinates of objects.",
   "main": "index.js",
-  "keywords": ["GPS", "Mega", "Mega GPS", "MegaGPS"],
+  "keywords": ["GPS", "Mega", "Mega GPS", "MegaGPS","mega-gps"],
   "author": "Liakhovets Stanislav",
   "license": "MIT",
   "repository": {
