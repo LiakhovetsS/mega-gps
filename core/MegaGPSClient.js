@@ -57,7 +57,8 @@ class MegaGPSClient {
     const raw = `s=${this.#API_KEY}&c=${c}&i=${i}&x=${x}&y=${y}`;
     const response = await fetch(this.#host, {
       method: this.#method,
-      body: raw
+      body: raw,
+      signal: AbortSignal.timeout(30000)
     });
     if (response.status !== 200) throw new Error(response);
     return response.text();
