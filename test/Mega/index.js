@@ -6,16 +6,8 @@ const MegaGPS = require('../../index');
 
 test('Parser mega - current data', (t) => {
   const parser = new Parser();
-  //немає зв'язку із трекером
-  // const csvData = 'id;extra;tlast;tvalid;tarc;lat;lng;azi;speed;alt;sat;hdop;csq;vcc;vbat;in1;temp1;temp2;fuel1;fuel2;fuel3;fuel_temp;geo_in\n' +
-  //   '22622;;1600448419;1600448419;1600448419;50410155;30605788;42;1;87;10;10;29;11;320;0;17;;;;;;-1';
-
-  // немає сигналу GPS
   const csvData = 'id;extra;tlast;tvalid;tarc;lat;lng;azi;speed;alt;sat;hdop;csq;vcc;vbat;in1;temp1;temp2;fuel1;fuel2;fuel3;fuel_temp;geo_in\n' +
-    '11933;;1748874374;1748727227;1748874374;50504610;30490520;0;0;94;8;-1;18;1305;372;0;47;;;;;;-1';
-  //немає зв'язку із трекером
-  // const csvData = 'id;extra;tlast;tvalid;tarc;lat;lng;azi;speed;alt;sat;hdop;csq;vcc;vbat;in1;temp1;temp2;fuel1;fuel2;fuel3;fuel_temp;geo_in\n' +
-  //   '4459;;1748873002;1748873002;1748873002;50444960;30520316;266;2;155;9;8;31;1427;394;0;32;;;;;;-1';
+    '1;;1748874374;1748727227;1748874374;50504610;30490520;0;0;94;8;-1;18;1305;372;0;47;;;;;;-1';
 
   const result = parser.parse(csvData);
   let dop = Number(result[0].hdop);
