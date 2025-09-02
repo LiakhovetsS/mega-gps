@@ -1,5 +1,5 @@
 import { GeoEntity } from './GeoEntity';
-import { CarData } from '../types/interfaces';
+import { ICarData } from '../types/interfaces';
 
 /**
  * @class Car
@@ -8,13 +8,13 @@ import { CarData } from '../types/interfaces';
 export class Car extends GeoEntity {
   name: string = '';
 
-  constructor(data: CarData) {
+  constructor(data: ICarData) {
     super();
     this.name = data.name;
     this.id = Number(data.id);
   }
 
-  get model(): CarData {
+  get model(): ICarData {
     return {
       id: this.id || 0,
       name: this.name

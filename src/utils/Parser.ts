@@ -1,26 +1,77 @@
 /**
  * @class Parser
- * @description Клас для обробки відповідей від API Mega GPS
- */
-export class Parser {
+ * @description Клас для парсингу даних з CSV формату
+ * @description Використовується для парсингу даних з API Mega GPS
+ * @param {string} CSV_DELIMITER - Роздільник CSV формату
+ *
+ * */
+export  class Parser {
+  private readonly CSV_DELIMITER = ';';
+
   /**
-   * @description - Обробка відповіді від API
-   * @param {any} response - Відповідь від API
-   * @returns {any[]} - Масив оброблених даних
-   */
-  parse(response: any): any[] {
-    if (!response || typeof response !== 'object') {
+   * @description - Парсинг даних з CSV формату
+   * @param {string} rawData - Сирі дані з API Mega GPS
+   * @returns {object[]} - Масив об'єктів з даними трекера
+   * */
+  parse(rawData:string):Record<string, string>[] {
+    const nonEmptyLines:string[] = this.splitIntoLines(rawData);
+    if (nonEmptyLines.length === 0) {
       return [];
     }
 
-    if (Array.isArray(response)) {
-      return response;
-    }
+    const headers:string[] = this.parseHeaders(nonEmptyLines[0]);
+    const rows:string[][] = this.parseRows(nonEmptyLines.slice(1));
 
-    if (response.data && Array.isArray(response.data)) {
-      return response.data;
-    }
-
-    return [response];
+    return this.combineHeadersWithRows(headers, rows);
   }
+
+  /**
+   * @description - Розділення сирих даних на рядки
+   * @param {string} rawData - Сирі дані з API Mega GPS
+   * @returns {string[]} - Масив рядків
+   * */
+  private splitIntoLines(rawData:string):string[] {
+    return rawData.split('\n')
+        .map(line => line.trim())
+        .filter(line => line !== '');
+  }
+
+  /**
+   * @description - Парсинг заголовків з першого рядка
+   * @param {string} headerLine - Перший рядок з даними
+   * @returns {string[]} - Масив заголовків
+   *
+   * */
+  private  parseHeaders(headerLine:string):string[] {
+    return headerLine.split(this.CSV_DELIMITER);
+  }
+
+  /**
+   * @description - Парсинг рядків з даними
+   * @param {string[]} dataLines - Масив рядків з даними
+   * @returns {string[][]} - Масив масивів рядків з даними
+   * */
+  private parseRows(dataLines:string[]):string[][] {
+    return dataLines.map(line =>
+        line.split(this.CSV_DELIMITER)
+    );
+  }
+
+  /**
+   * @description - Комбінування заголовків з рядками
+   * @param {string[]} headers - Масив заголовків
+   * @param {string[][]} rows - Масив рядків з даними
+   * @returns {object[]} - Масив об'єктів з даними трекера
+   *
+   * */
+  private combineHeadersWithRows(headers:string[], rows:string[][]):Record<string, string>[] {
+    return rows.map(row => {
+      const record: Record<string, string> = {};
+      headers.forEach((header, index) => {
+        record[header] = row[index];
+      });
+      return record;
+    });
+  }
+
 }

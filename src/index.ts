@@ -1,5 +1,5 @@
 import { MegaGPSService } from './core/MegaGPSService';
-import { MegaGPSConfig } from './types/interfaces';
+import { IMegaGPSConfig } from './types/interfaces';
 
 /**
  * @description - Клас для роботи з API MegaGPS
@@ -13,7 +13,7 @@ import { MegaGPSConfig } from './types/interfaces';
 export class MegaGPS {
   #service: MegaGPSService;
 
-  constructor({ key = '' }: MegaGPSConfig) {
+  constructor({ key = '' }: IMegaGPSConfig) {
     if (!key) {
       throw new Error('API key is required');
     }
@@ -26,7 +26,7 @@ export class MegaGPS {
    * @returns {Promise<object>} - Об'єкт з даними трекера
    * @throws {Error} - Якщо ID трекера не вказано
    */
-  async currentData(trackerId: string): Promise<any> {
+  async currentData(trackerId: number): Promise<any> {
     if (!trackerId) {
       throw new Error('Tracker ID is required');
     }

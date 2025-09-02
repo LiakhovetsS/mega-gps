@@ -1,6 +1,7 @@
 import { MegaGPSClient } from './MegaGPSClient';
 import { Parser } from '../utils/Parser';
 import { Car, CurrentData } from '../entity';
+import {ActionEnum, ICarData, ICurrentData, ITrackData} from "../types/interfaces";
 
 /**
  * @class MegaGPSService
@@ -21,9 +22,9 @@ export class MegaGPSService {
    * @returns {Promise<object>} - Об'єкт з даними трекера
    * @throws {Error} - Якщо ID трекера не вказано
    */
-  async getCurrentData(trackerId: string): Promise<any> {
-    const response = await this.client.request({
-      c: this.client.ACTION_ENUM.GET_CURRENT_DATA,
+  async getCurrentData(trackerId: number): Promise<ICurrentData> {
+    const response:string = await this.client.request({
+      c: ActionEnum.GET_CURRENT_DATA,
       i: trackerId
     });
     const parsedData = this.parser.parse(response)[0];
@@ -34,12 +35,12 @@ export class MegaGPSService {
    * @description - Отримати список всіх трекерів
    * @returns {Promise<object[]>} - Об'єкт з даними трекерів
    */
-  async getAllTrackers(): Promise<any[]> {
-    const response = await this.client.request({
-      c: this.client.ACTION_ENUM.GET_ALL_TRACKER,
+  async getAllTrackers(): Promise<ITrackData[]> {
+    const response:string = await this.client.request({
+      c: ActionEnum.GET_ALL_TRACKER,
       i: 0
     });
-    const parsedData = this.parser.parse(response);
+    const parsedData: <ICarData>[] = this.parser.parse(response);
     const list: any[] = [];
     for (const item of parsedData) {
       const car = new Car(item);
@@ -56,9 +57,9 @@ export class MegaGPSService {
    * @returns {Promise<object>} - Об'єкт з даними пробігу
    * @throws {Error} - Якщо ID трекера не вказано
    */
-  async getMileage(trackerId: string, fromDate: string, toDate: string): Promise<any> {
+  async getMileage(trackerId: number, fromDate: number, toDate: number): Promise<any> {
     const response = await this.client.request({
-      c: this.client.ACTION_ENUM.GET_MILEAGE,
+      c: ActionEnum.GET_MILEAGE,
       i: trackerId,
       x: fromDate,
       y: toDate
@@ -75,9 +76,9 @@ export class MegaGPSService {
    * @returns {Promise<object[]>} - Масив об'єктів з даними треку
    * @throws {Error} - Якщо ID трекера не вказано
    */
-  async getTrack(trackerId: string, fromDate: string, toDate: string): Promise<any[]> {
+  async getTrack(trackerId: number, fromDate: number, toDate: number): Promise<any[]> {
     const response = await this.client.request({
-      c: this.client.ACTION_ENUM.GET_TRACK,
+      c: ActionEnum.GET_TRACK,
       i: trackerId,
       x: fromDate,
       y: toDate

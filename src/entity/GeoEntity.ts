@@ -1,12 +1,23 @@
-import { GeoEntityData } from '../types/interfaces';
+import { IGeoEntityData } from '../types/interfaces';
 
 /**
  * @class GeoEntity
- * @description Клас для роботи з геоданими
- * @description Використовується для отримання даних з API Mega GPS
- */
-export class GeoEntity {
-  id: number | null = null;
+ * @description Класс для работы с геоданными
+ * @description Используется для получения данных с API Mega GPS
+ * @param {number} id - ID трекера
+ * @param {number} lat - Широта ( град.*1000000)
+ * @param {number} lng - Долгота ( град.*1000000)
+ * @param {number} hDop - GPS H.DOP, меньше - лучше (ед.*10)
+ * @param {number} vcc - Напряжение бортовой сети (Вольт*100)
+ * @param {number} vBat - Внутреннее напряжение (Вольт*100)
+ * @param {number} in1 - Состояние дискретного входа (0 или 1)
+ * @param {number} lat6 - Широта (град.*600000)
+ * @param {number} lng6 - Долгота (град.*600000)
+ * @param {number} lbs_lat - Широта по LBS, если нет GPS (град.*1000000)
+ * @param {number} lbs_lng - Долгота по LBS, если нет GPS (град.*1000000)
+ * */
+export class GeoEntity implements IGeoEntityData{
+  public id: number=0 ;
   protected _lat: number = 0.0;
   protected _lng: number = 0.0;
   protected _hDop: number = 0;
@@ -17,44 +28,92 @@ export class GeoEntity {
   protected _lng6: number = 0;
   protected _lbs_lat: number = 0;
   protected _lbs_lng: number = 0;
+  private readonly VOLTAGE_ROUND_VALUE = 100;
+  private readonly GEO_ROUND_VALUE = 1000000;
+  private readonly GEO_TRACK_ROUND_VALUE = 600000;
 
-  constructor(data?: GeoEntityData) {
-    if (data) {
-      this.id = data.id !== undefined ? data.id : null;
-      this._lat = data.lat || 0.0;
-      this._lng = data.lng || 0.0;
-      this._hDop = data.hDop || 0;
-      this._vcc = data.vcc || 0;
-      this._vBat = data.vBat || 0;
-      this._in1 = data.in1 || 0;
-      this._lat6 = data.lat6 || 0;
-      this._lng6 = data.lng6 || 0;
-      this._lbs_lat = data.lbs_lat || 0;
-      this._lbs_lng = data.lbs_lng || 0;
+  set lat(value: number) {
+    this._lat = value;
+  }
+  get lat(): number {
+    return this.roundedGeo(this._lat);
+  }
+
+  set lng(value: number) {
+    this._lng = value;
+  }
+  get lng(): number {
+    return this.roundedGeo(this._lng);
+  }
+
+  set lbs_lat(value) {
+    this._lbs_lat = value;
+  }
+
+  get lbs_lat() {
+    return this.roundedGeo(this._lbs_lat);
+  }
+
+  set lbs_lng(value) {
+    this._lbs_lng = value;
+  }
+
+  get lbs_lng() {
+    return this.roundedGeo(this._lbs_lng);
+  }
+
+  set lat6(value) {
+    this._lat6 = value;
+  }
+
+  get lat6() {
+    return this.roundedGeoTrack(this._lat6);
+  }
+
+  set lng6(value) {
+    this._lng6 = value;
+  }
+
+  get lng6() {
+    return this.roundedGeoTrack(this._lng6);
+  }
+
+  set vcc(value) {
+    this._vcc = value;
+  }
+
+  get vcc() {
+    return this.roundedVoltage(this._vcc);
+  }
+
+  set vBat(value) {
+    this._vBat = value;
+  }
+
+  get vBat() {
+    return this.roundedVoltage(this._vBat);
+  }
+
+  get model():{id:number} {
+    return {
+      id: this.id
     }
   }
 
-  get lat(): number {
-    return this._lat / 1000000;
+  private roundedGeo(value:number): number {
+    return this.rounded(value, this.GEO_ROUND_VALUE);
   }
 
-  get lng(): number {
-    return this._lng / 1000000;
+  private roundedGeoTrack(value:number):number {
+    return this.rounded(value, this.GEO_TRACK_ROUND_VALUE);
   }
 
-  get hDop(): number {
-    return this._hDop / 10;
+  private rounded(value:number, roundValue = 1000000, fixed = 6):number {
+    return Number((value / roundValue).toFixed(fixed));
   }
 
-  get vcc(): number {
-    return this._vcc / 100;
+  private roundedVoltage(value:number):number {
+    return this.rounded(value, this.VOLTAGE_ROUND_VALUE, 2);
   }
 
-  get vBat(): number {
-    return this._vBat / 100;
-  }
-
-  get in1(): number {
-    return this._in1;
-  }
 }
