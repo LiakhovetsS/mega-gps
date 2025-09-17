@@ -1,66 +1,156 @@
 # MegaGPS
 
-## English
+## Опис
 
-MegaGPS is a Node.js library for interacting with the MegaGPS API. It allows you to retrieve current tracker data, sensor states, and a list of all trackers.
+MegaGPS — це TypeScript/JavaScript бібліотека для інтеграції з API MegaGPS, яка дозволяє отримувати дані про трекери, їхнє поточне положення, пробіг та треки за період.
 
-### Features
-- Get current tracker position and sensor status
-- Retrieve all trackers
-- Simple API key authentication
+---
 
-### Installation
+## Встановлення
+
 ```bash
 npm install mega-gps
 ```
 
-### Usage
-```js
-const MegaGPS = require('./index');
+---
+
+## Використання
+
+```typescript
+import MegaGPS from 'mega-gps';
+
 const megaGPS = new MegaGPS({ key: 'your_api_key' });
 
-// Get current data for a tracker
-const data = await megaGPS.currentData('tracker_id');
-console.log(data);
+// Отримати поточні дані трекера
+const current = await megaGPS.currentData(trackerId);
 
-// Get all trackers
+// Отримати список всіх трекерів
 const trackers = await megaGPS.allTrackers();
-console.log(trackers);
+
+// Отримати пробіг за період
+const mileage = await megaGPS.mileage(trackerId, fromDate, toDate);
+
+// Отримати трек за період
+const track = await megaGPS.track(trackerId, fromDate, toDate);
 ```
 
-### License
+---
+
+## API
+
+### Конструктор
+
+```typescript
+new MegaGPS({ key: string })
+```
+- `key` — API ключ (обов'язково).
+
+### Методи
+
+- `currentData(trackerId: number): Promise<TCurrentDataOut>`
+    - Повертає поточне положення та стан датчиків трекера.
+- `allTrackers(): Promise<TCar[]>`
+    - Повертає список всіх трекерів.
+- `mileage(trackerId: number, fromDate: number, toDate: number): Promise<TMileage>`
+    - Повертає пробіг трекера за період.
+- `track(trackerId: number, fromDate: number, toDate: number): Promise<TTrackDataOut[]>`
+    - Повертає трек трекера за період.
+
+---
+
+## Типи
+
+Типи даних описані у папці `src/types/`.
+
+---
+
+## Вимоги
+
+- Node.js >= 14
+- TypeScript (для типізації)
+
+---
+
+## Ліцензія
+
 MIT
 
 ---
 
-## Українською
+# MegaGPS (English)
 
-MegaGPS — це бібліотека Node.js для роботи з API MegaGPS. Дозволяє отримувати поточні дані трекера, стан датчиків та список всіх трекерів.
+## Description
 
-### Можливості
-- Отримання поточного положення трекера та стану датчиків
-- Отримання списку всіх трекерів
-- Простий механізм автентифікації через API ключ
+MegaGPS is a TypeScript/JavaScript library for integrating with the MegaGPS API, allowing you to retrieve tracker data, current positions, mileage, and tracks for a given period.
 
-### Встановлення
+---
+
+## Installation
+
 ```bash
 npm install mega-gps
 ```
 
-### Використання
-```js
-const MegaGPS = require('./index');
+---
+
+## Usage
+
+```typescript
+import MegaGPS from 'mega-gps';
+
 const megaGPS = new MegaGPS({ key: 'your_api_key' });
 
-// Отримати поточні дані трекера
-const data = await megaGPS.currentData('tracker_id');
-console.log(data);
+// Get current tracker data
+const current = await megaGPS.currentData(trackerId);
 
-// Отримати всі трекери
+// Get all trackers
 const trackers = await megaGPS.allTrackers();
-console.log(trackers);
+
+// Get mileage for a period
+const mileage = await megaGPS.mileage(trackerId, fromDate, toDate);
+
+// Get track for a period
+const track = await megaGPS.track(trackerId, fromDate, toDate);
 ```
 
-### Ліцензія
+---
+
+## API
+
+### Constructor
+
+```typescript
+new MegaGPS({ key: string })
+```
+- `key` — API key (required).
+
+### Methods
+
+- `currentData(trackerId: number): Promise<TCurrentDataOut>`
+    - Returns current position and sensor state for a tracker.
+- `allTrackers(): Promise<TCar[]>`
+    - Returns a list of all trackers.
+- `mileage(trackerId: number, fromDate: number, toDate: number): Promise<TMileage>`
+    - Returns mileage for a tracker within a period.
+- `track(trackerId: number, fromDate: number, toDate: number): Promise<TTrackDataOut[]>`
+    - Returns track data for a tracker within a period.
+
+---
+
+## Types
+
+Data types are described in the `src/types/` folder.
+
+---
+
+## Requirements
+
+- Node.js >= 14
+- TypeScript (for typings)
+
+---
+
+## License
+
 MIT
 
