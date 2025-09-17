@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert');
 
-const MegaGPS = require('../../index');
+const  MegaGPS = require('../../dist/index');
 
 test('Mega GPS - all trackers', async (t) => {
   const mega = new MegaGPS({key:''});
