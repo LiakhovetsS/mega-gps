@@ -1,4 +1,4 @@
-import {IMegaGPSResponse, IRequestParams} from '../types/interfaces';
+import {IMegaGPSResponse, IRequestParams, IClient} from '../types/interfaces';
 
 /**
  * @class MegaGPSClient
@@ -19,7 +19,7 @@ import {IMegaGPSResponse, IRequestParams} from '../types/interfaces';
  * @param {number} ACTION_ENUM.SEND_TEXT_COMMAND - Відправити текстову команду трекеру
  * @method request
  * */
-export class MegaGPSClient {
+export class MegaGPSClient implements IClient {
     private readonly host: string = 'http://mega-gps.com/api3';
     private readonly API_KEY: string = '';
     private readonly method: string = 'POST';

@@ -5,12 +5,15 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
+    "useDefineForClassFields": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "sourceMap": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

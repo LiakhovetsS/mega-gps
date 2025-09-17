@@ -2,6 +2,7 @@
  * Інтерфейси для MegaGPS
  */
 
+
 /**
  * Інтерфейс для конфігурації MegaGPS
  */
@@ -33,75 +34,36 @@ export enum ActionEnum {
     SEND_TEXT_COMMAND = 8,
 }
 
-/**
- * Інтерфейс для геоданих
- */
-export interface IGeoEntityData {
-    id?: number | null;
-    lat?: number;
-    lng?: number;
-    hDop?: number;
-    vcc?: number;
-    vBat?: number;
-    in1?: number;
-    lat6?: number;
-    lng6?: number;
-    lbs_lat?: number;
-    lbs_lng?: number;
-    model: { id: number }
+export enum statusEnum {
+    NoConnection = 'NoConnection',
+    GPSNotSignal = 'GPSNotSignal',
+    success = 'success',
+    GPSSuppression = 'GPSSuppression',
+    GPSReceiverFailure = 'GPSReceiverFailure',
+    unknown = 'unknown'
 }
 
-/**
- * Інтерфейс для даних автомобіля
- */
-export interface ICarData {
-    id: number | string;
-    name: string;
-}
 
-/**
- * Інтерфейс для поточних даних
- */
-export interface ICurrentData extends IGeoEntityData {
-    id: number;
-    lat: number;
-    lng: number;
-    speed: number;
-    course: number;
-    datetime: Date;
-    satellites: number;
-    hDop: number;
-    vcc: number;
-    vBat: number;
-    in1: number;
-}
-
-/**
- * Інтерфейс для даних треку
- */
-export interface ITrackData extends IGeoEntityData {
-    id: number;
-    lat: number;
-    lng: number;
-    speed: number;
-    course: number;
-    datetime: Date;
-    satellites: number;
-    hDop: number;
-}
-
-/**
- * Інтерфейс для даних пробігу
- */
-export interface IMileageData {
-    id: number;
-    km10: number;
-    maxSpeed: number;
-    engineTime: number;
-    fuel_begin: number;
-    fuel_end: number;
-}
 export interface IMegaGPSResponse {
     status: number;
+
     text(): Promise<string>;
+}
+
+
+export interface IClient {
+    request(params: IRequestParams): Promise<string> | Error;
+}
+
+
+export type parseData = {
+    [key: string | number]: string | number | null | Date;
+}
+
+// Масив об'єктів після парсингу
+export type ParseList<T extends parseData> = T[];
+
+// Інтерфейс для парсера CSV
+export interface IParserCSV {
+    parse<T extends parseData>(rawData: string): ParseList<T>;
 }
