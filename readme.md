@@ -2,7 +2,7 @@
 
 ## Опис
 
-MegaGPS — це TypeScript/JavaScript бібліотека для інтеграції з API MegaGPS, яка дозволяє отримувати дані про трекери, їхнє поточне положення, пробіг та треки за період.
+MegaGPS — це TypeScript/JavaScript бібліотека для інтеграції з GPS-трекерами, що працюють через сервіс [MegaGPS](http://mega-gps.net). Вона дозволяє отримувати дані про трекери, їхнє поточне положення, пробіг та треки за період. Бібліотека спрощує роботу з API MegaGPS, забезпечуючи зручний доступ до інформації про транспортні засоби, їхній рух та стан датчиків у реальному часі.
 
 ---
 
@@ -81,7 +81,7 @@ MIT
 
 ## Description
 
-MegaGPS is a TypeScript/JavaScript library for integrating with the MegaGPS API, allowing you to retrieve tracker data, current positions, mileage, and tracks for a given period.
+MegaGPS is a TypeScript/JavaScript library for integrating with GPS trackers managed via the [MegaGPS](http://mega-gps.net) service. It allows you to retrieve tracker data, current positions, mileage, and tracks for a given period. The library simplifies interaction with the MegaGPS API, providing convenient access to vehicle information, movement history, and real-time sensor states.
 
 ---
 
@@ -153,4 +153,3 @@ Data types are described in the `src/types/` folder.
 ## License
 
 MIT
-
